@@ -1,4 +1,5 @@
 import Testing
+import Time_Primitive
 import Time_To_Live
 import Time_To_Live_Store
 
@@ -8,9 +9,9 @@ struct `Store InMemory Tests` {
     @Suite
     struct Lookup {
         @Test
-        func `returns a live value`() {
-            let t0 = ContinuousClock().now
-            let store = Time_To_Live_Store.Store.InMemory<String, Int, ContinuousClock.Instant>()
+        func `returns a live value`() throws {
+            let t0 = try Instant(secondsSinceUnixEpoch: 1_000_000)
+            let store = Store.InMemory<String, Int, Instant>()
 
             store.insert(42, forKey: "answer", ttl: TTL(.seconds(60), from: t0))
 
@@ -19,9 +20,9 @@ struct `Store InMemory Tests` {
         }
 
         @Test
-        func `a policy with no expiration never expires`() {
-            let t0 = ContinuousClock().now
-            let store = Time_To_Live_Store.Store.InMemory<String, Int, ContinuousClock.Instant>()
+        func `a policy with no expiration never expires`() throws {
+            let t0 = try Instant(secondsSinceUnixEpoch: 1_000_000)
+            let store = Store.InMemory<String, Int, Instant>()
 
             store.insert(7, forKey: "eternal", ttl: TTL(nil, from: t0))
 
@@ -33,9 +34,9 @@ struct `Store InMemory Tests` {
     @Suite
     struct Expiry {
         @Test
-        func `an expired value is absent and removed on lookup`() {
-            let t0 = ContinuousClock().now
-            let store = Time_To_Live_Store.Store.InMemory<String, Int, ContinuousClock.Instant>()
+        func `an expired value is absent and removed on lookup`() throws {
+            let t0 = try Instant(secondsSinceUnixEpoch: 1_000_000)
+            let store = Store.InMemory<String, Int, Instant>()
 
             store.insert(1, forKey: "a", ttl: TTL(.seconds(10), from: t0))
             #expect(store.count == 1)
@@ -49,9 +50,9 @@ struct `Store InMemory Tests` {
         }
 
         @Test
-        func `prune removes only the expired entries`() {
-            let t0 = ContinuousClock().now
-            let store = Time_To_Live_Store.Store.InMemory<String, Int, ContinuousClock.Instant>()
+        func `prune removes only the expired entries`() throws {
+            let t0 = try Instant(secondsSinceUnixEpoch: 1_000_000)
+            let store = Store.InMemory<String, Int, Instant>()
 
             store.insert(1, forKey: "short", ttl: TTL(.seconds(10), from: t0))
             store.insert(2, forKey: "long", ttl: TTL(.seconds(100), from: t0))
@@ -70,9 +71,9 @@ struct `Store InMemory Tests` {
     @Suite
     struct Removal {
         @Test
-        func `removeValue returns and removes the entry`() {
-            let t0 = ContinuousClock().now
-            let store = Time_To_Live_Store.Store.InMemory<String, Int, ContinuousClock.Instant>()
+        func `removeValue returns and removes the entry`() throws {
+            let t0 = try Instant(secondsSinceUnixEpoch: 1_000_000)
+            let store = Store.InMemory<String, Int, Instant>()
 
             store.insert(9, forKey: "k", ttl: TTL(nil, from: t0))
 
@@ -82,9 +83,9 @@ struct `Store InMemory Tests` {
         }
 
         @Test
-        func `removeAll empties the store`() {
-            let t0 = ContinuousClock().now
-            let store = Time_To_Live_Store.Store.InMemory<String, Int, ContinuousClock.Instant>()
+        func `removeAll empties the store`() throws {
+            let t0 = try Instant(secondsSinceUnixEpoch: 1_000_000)
+            let store = Store.InMemory<String, Int, Instant>()
 
             store.insert(1, forKey: "a", ttl: TTL(nil, from: t0))
             store.insert(2, forKey: "b", ttl: TTL(nil, from: t0))
@@ -99,9 +100,9 @@ struct `Store InMemory Tests` {
     @Suite
     struct Capacity {
         @Test
-        func `inserting a new key at capacity evicts the oldest`() {
-            let t0 = ContinuousClock().now
-            let store = Time_To_Live_Store.Store.InMemory<String, Int, ContinuousClock.Instant>(capacity: 2)
+        func `inserting a new key at capacity evicts the oldest`() throws {
+            let t0 = try Instant(secondsSinceUnixEpoch: 1_000_000)
+            let store = Store.InMemory<String, Int, Instant>(capacity: 2)
 
             store.insert(1, forKey: "a", ttl: TTL(nil, from: t0))
             store.insert(2, forKey: "b", ttl: TTL(nil, from: t0))
@@ -114,9 +115,9 @@ struct `Store InMemory Tests` {
         }
 
         @Test
-        func `replacing an existing key does not evict`() {
-            let t0 = ContinuousClock().now
-            let store = Time_To_Live_Store.Store.InMemory<String, Int, ContinuousClock.Instant>(capacity: 2)
+        func `replacing an existing key does not evict`() throws {
+            let t0 = try Instant(secondsSinceUnixEpoch: 1_000_000)
+            let store = Store.InMemory<String, Int, Instant>(capacity: 2)
 
             store.insert(1, forKey: "a", ttl: TTL(nil, from: t0))
             store.insert(2, forKey: "b", ttl: TTL(nil, from: t0))

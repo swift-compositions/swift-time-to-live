@@ -23,6 +23,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/swift-primitives/swift-cache-primitives.git", branch: "main"),
+        .package(url: "https://github.com/swift-primitives/swift-time-primitives.git", branch: "main"),
     ],
     targets: [
         .target(name: "Time To Live"),
@@ -39,7 +40,10 @@ let package = Package(
         ),
         .testTarget(
             name: "Time To Live Store Tests",
-            dependencies: ["Time To Live Store"]
+            dependencies: [
+                "Time To Live Store",
+                .product(name: "Time Primitive", package: "swift-time-primitives"),
+            ]
         ),
     ],
     swiftLanguageModes: [.v6]

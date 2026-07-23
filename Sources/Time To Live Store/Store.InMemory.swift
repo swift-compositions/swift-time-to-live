@@ -19,9 +19,10 @@ extension Store {
     /// `Store.InMemory` is *typed*: values are stored and returned as `Value`,
     /// with no `Any`-erasure. It is clock-agnostic — every expiry-sensitive
     /// operation takes the current `Instant` explicitly, mirroring
-    /// ``TTL/isExpired(at:)``. Bind a clock at the call site, or use the
-    /// `Time To Live Dependencies` conveniences to resolve the current instant
-    /// from `@Dependency(\.clock)`.
+    /// ``TTL/isExpired(at:)``. `Instant` is any `InstantProtocol` value: the
+    /// ecosystem's own `Instant` (swift-time-primitives) for absolute UTC time,
+    /// or the injected clock's `Clock.Any.Instant` via the
+    /// `Time To Live Dependencies` conveniences (`@Dependency(\.clock)`).
     ///
     /// ## Capacity and eviction
     ///
@@ -37,8 +38,10 @@ extension Store {
     /// ``Cache/Bounded``); a `let` binding is safe to use from any isolation.
     ///
     /// ```swift
-    /// let store = Store.InMemory<String, Int, ContinuousClock.Instant>()
-    /// let now = ContinuousClock().now
+    /// import Time_Primitive   // ecosystem UTC `Instant`
+    ///
+    /// let store = Store.InMemory<String, Int, Instant>()
+    /// let now = try Instant(secondsSinceUnixEpoch: 1_700_000_000)
     /// store.insert(42, forKey: "answer", ttl: TTL(.seconds(60), from: now))
     /// store.value(forKey: "answer", at: now)                              // 42
     /// store.value(forKey: "answer", at: now.advanced(by: .seconds(90)))   // nil (expired)
