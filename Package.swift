@@ -16,12 +16,30 @@ let package = Package(
             name: "Time To Live",
             targets: ["Time To Live"]
         ),
+        .library(
+            name: "Time To Live Store",
+            targets: ["Time To Live Store"]
+        ),
+    ],
+    dependencies: [
+        .package(url: "https://github.com/swift-primitives/swift-cache-primitives.git", branch: "main"),
     ],
     targets: [
         .target(name: "Time To Live"),
+        .target(
+            name: "Time To Live Store",
+            dependencies: [
+                "Time To Live",
+                .product(name: "Cache Primitives", package: "swift-cache-primitives"),
+            ]
+        ),
         .testTarget(
             name: "Time To Live Tests",
             dependencies: ["Time To Live"]
+        ),
+        .testTarget(
+            name: "Time To Live Store Tests",
+            dependencies: ["Time To Live Store"]
         ),
     ],
     swiftLanguageModes: [.v6]
