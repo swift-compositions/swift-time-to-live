@@ -36,7 +36,10 @@ let package = Package(
         ),
         .testTarget(
             name: "Time To Live Tests",
-            dependencies: ["Time To Live"]
+            dependencies: [
+                "Time To Live",
+                .product(name: "Time Primitive", package: "swift-time-primitives"),
+            ]
         ),
         .testTarget(
             name: "Time To Live Store Tests",
