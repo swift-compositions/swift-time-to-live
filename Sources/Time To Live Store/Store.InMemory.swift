@@ -64,14 +64,6 @@ extension Store {
     }
 }
 
-extension Store.InMemory {
-    /// A stored value paired with the policy that governs its expiry.
-    private struct Entry: Sendable {
-        let value: Value
-        let ttl: TTL<Instant>
-    }
-}
-
 // MARK: - Insertion
 
 extension Store.InMemory {

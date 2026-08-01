@@ -5,6 +5,9 @@ import Time_To_Live_Store
 
 @Suite
 struct `Store InMemory Tests` {
+    @Suite struct Unit {}
+    @Suite struct `Edge Case` {}
+    @Suite struct Integration {}
 
     @Suite
     struct Lookup {
