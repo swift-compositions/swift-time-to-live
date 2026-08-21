@@ -44,10 +44,8 @@ struct `Store InMemory Tests` {
             store.insert(1, forKey: "a", ttl: TTL(.seconds(10), from: t0))
             #expect(store.count == 1)
 
-            // Not yet expired.
             #expect(store.value(forKey: "a", at: t0.advanced(by: .seconds(5))) == 1)
 
-            // Expired: absent, and lazily removed as a side effect.
             #expect(store.value(forKey: "a", at: t0.advanced(by: .seconds(20))) == nil)
             #expect(store.count == 0)
         }
@@ -109,7 +107,7 @@ struct `Store InMemory Tests` {
 
             store.insert(1, forKey: "a", ttl: TTL(nil, from: t0))
             store.insert(2, forKey: "b", ttl: TTL(nil, from: t0))
-            store.insert(3, forKey: "c", ttl: TTL(nil, from: t0))  // evicts "a" (oldest)
+            store.insert(3, forKey: "c", ttl: TTL(nil, from: t0))
 
             #expect(store.count == 2)
             #expect(store.value(forKey: "a", at: t0) == nil)
@@ -124,7 +122,7 @@ struct `Store InMemory Tests` {
 
             store.insert(1, forKey: "a", ttl: TTL(nil, from: t0))
             store.insert(2, forKey: "b", ttl: TTL(nil, from: t0))
-            store.insert(20, forKey: "b", ttl: TTL(nil, from: t0))  // replace, not a new key
+            store.insert(20, forKey: "b", ttl: TTL(nil, from: t0))
 
             #expect(store.count == 2)
             #expect(store.value(forKey: "a", at: t0) == 1)
