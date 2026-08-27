@@ -1,4 +1,4 @@
-import Cache_Primitives
+import Cache
 public import Time_To_Live
 
 extension Store {

@@ -23,11 +23,11 @@ let package = Package(
     ],
     dependencies: [
         .package(
-            url: "https://github.com/swift-primitives/swift-cache-primitives.git",
+            url: "https://github.com/swift-molecules/swift-cache.git",
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-primitives/swift-time-primitives.git",
+            url: "https://github.com/swift-molecules/swift-time.git",
             branch: "main"
         ),
     ],
@@ -37,21 +37,21 @@ let package = Package(
             name: "Time To Live Store",
             dependencies: [
                 "Time To Live",
-                .product(name: "Cache Primitives", package: "swift-cache-primitives"),
+                .product(name: "Cache", package: "swift-cache"),
             ]
         ),
         .testTarget(
             name: "Time To Live Tests",
             dependencies: [
                 "Time To Live",
-                .product(name: "Time Primitive", package: "swift-time-primitives"),
+                .product(name: "Time Primitive", package: "swift-time"),
             ]
         ),
         .testTarget(
             name: "Time To Live Store Tests",
             dependencies: [
                 "Time To Live Store",
-                .product(name: "Time Primitive", package: "swift-time-primitives"),
+                .product(name: "Time Primitive", package: "swift-time"),
             ]
         ),
     ],

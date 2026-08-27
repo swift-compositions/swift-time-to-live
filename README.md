@@ -1,7 +1,7 @@
 # swift-time-to-live
 
 ![Development Status](https://img.shields.io/badge/status-active--development-blue.svg)
-[![CI](https://github.com/swift-foundations/swift-time-to-live/workflows/CI/badge.svg)](https://github.com/swift-foundations/swift-time-to-live/actions/workflows/ci.yml)
+[![CI](https://github.com/swift-compositions/swift-time-to-live/workflows/CI/badge.svg)](https://github.com/swift-compositions/swift-time-to-live/actions/workflows/ci.yml)
 
 A clock-agnostic time-to-live policy and a typed, capacity-bounded in-memory store whose entries expire under it.
 
@@ -12,7 +12,7 @@ A clock-agnostic time-to-live policy and a typed, capacity-bounded in-memory sto
 ```swift
 dependencies: [
     .package(
-        url: "https://github.com/swift-foundations/swift-time-to-live.git",
+        url: "https://github.com/swift-compositions/swift-time-to-live.git",
         branch: "main"
     )
 ]
