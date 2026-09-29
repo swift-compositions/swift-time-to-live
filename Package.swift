@@ -27,7 +27,7 @@ let package = Package(
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-molecules/swift-time.git",
+            url: "https://github.com/swift-atoms/swift-time.git",
             branch: "main"
         ),
     ],
