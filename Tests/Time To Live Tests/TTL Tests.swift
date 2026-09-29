@@ -1,5 +1,5 @@
 import Testing
-import Time_Primitive
+import Time
 
 @testable import Time_To_Live
 

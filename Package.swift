@@ -44,14 +44,14 @@ let package = Package(
             name: "Time To Live Tests",
             dependencies: [
                 "Time To Live",
-                .product(name: "Time Primitive", package: "swift-time"),
+                .product(name: "Time", package: "swift-time"),
             ]
         ),
         .testTarget(
             name: "Time To Live Store Tests",
             dependencies: [
                 "Time To Live Store",
-                .product(name: "Time Primitive", package: "swift-time"),
+                .product(name: "Time", package: "swift-time"),
             ]
         ),
     ],

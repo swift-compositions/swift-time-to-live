@@ -1,5 +1,5 @@
 import Testing
-import Time_Primitive
+import Time
 import Time_To_Live
 import Time_To_Live_Store
 
