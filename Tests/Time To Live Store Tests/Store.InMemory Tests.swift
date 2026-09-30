@@ -13,8 +13,8 @@ struct `Store InMemory Tests` {
     struct Lookup {
         @Test
         func `returns a live value`() throws {
-            let t0 = try Instant(secondsSinceUnixEpoch: 1_000_000)
-            let store = Store.InMemory<String, Int, Instant>()
+            let t0 = Time.Instant(secondsSinceUnixEpoch: 1_000_000)
+            let store = Store.InMemory<String, Int, Time.Instant>()
 
             store.insert(42, forKey: "answer", ttl: TTL(.seconds(60), from: t0))
 
@@ -24,8 +24,8 @@ struct `Store InMemory Tests` {
 
         @Test
         func `a policy with no expiration never expires`() throws {
-            let t0 = try Instant(secondsSinceUnixEpoch: 1_000_000)
-            let store = Store.InMemory<String, Int, Instant>()
+            let t0 = Time.Instant(secondsSinceUnixEpoch: 1_000_000)
+            let store = Store.InMemory<String, Int, Time.Instant>()
 
             store.insert(7, forKey: "eternal", ttl: TTL(nil, from: t0))
 
@@ -38,8 +38,8 @@ struct `Store InMemory Tests` {
     struct Expiry {
         @Test
         func `an expired value is absent and removed on lookup`() throws {
-            let t0 = try Instant(secondsSinceUnixEpoch: 1_000_000)
-            let store = Store.InMemory<String, Int, Instant>()
+            let t0 = Time.Instant(secondsSinceUnixEpoch: 1_000_000)
+            let store = Store.InMemory<String, Int, Time.Instant>()
 
             store.insert(1, forKey: "a", ttl: TTL(.seconds(10), from: t0))
             #expect(store.count == 1)
@@ -52,8 +52,8 @@ struct `Store InMemory Tests` {
 
         @Test
         func `prune removes only the expired entries`() throws {
-            let t0 = try Instant(secondsSinceUnixEpoch: 1_000_000)
-            let store = Store.InMemory<String, Int, Instant>()
+            let t0 = Time.Instant(secondsSinceUnixEpoch: 1_000_000)
+            let store = Store.InMemory<String, Int, Time.Instant>()
 
             store.insert(1, forKey: "short", ttl: TTL(.seconds(10), from: t0))
             store.insert(2, forKey: "long", ttl: TTL(.seconds(100), from: t0))
@@ -73,8 +73,8 @@ struct `Store InMemory Tests` {
     struct Removal {
         @Test
         func `removeValue returns and removes the entry`() throws {
-            let t0 = try Instant(secondsSinceUnixEpoch: 1_000_000)
-            let store = Store.InMemory<String, Int, Instant>()
+            let t0 = Time.Instant(secondsSinceUnixEpoch: 1_000_000)
+            let store = Store.InMemory<String, Int, Time.Instant>()
 
             store.insert(9, forKey: "k", ttl: TTL(nil, from: t0))
 
@@ -85,8 +85,8 @@ struct `Store InMemory Tests` {
 
         @Test
         func `removeAll empties the store`() throws {
-            let t0 = try Instant(secondsSinceUnixEpoch: 1_000_000)
-            let store = Store.InMemory<String, Int, Instant>()
+            let t0 = Time.Instant(secondsSinceUnixEpoch: 1_000_000)
+            let store = Store.InMemory<String, Int, Time.Instant>()
 
             store.insert(1, forKey: "a", ttl: TTL(nil, from: t0))
             store.insert(2, forKey: "b", ttl: TTL(nil, from: t0))
@@ -102,8 +102,8 @@ struct `Store InMemory Tests` {
     struct Capacity {
         @Test
         func `inserting a new key at capacity evicts the oldest`() throws {
-            let t0 = try Instant(secondsSinceUnixEpoch: 1_000_000)
-            let store = Store.InMemory<String, Int, Instant>(capacity: 2)
+            let t0 = Time.Instant(secondsSinceUnixEpoch: 1_000_000)
+            let store = Store.InMemory<String, Int, Time.Instant>(capacity: 2)
 
             store.insert(1, forKey: "a", ttl: TTL(nil, from: t0))
             store.insert(2, forKey: "b", ttl: TTL(nil, from: t0))
@@ -117,8 +117,8 @@ struct `Store InMemory Tests` {
 
         @Test
         func `replacing an existing key does not evict`() throws {
-            let t0 = try Instant(secondsSinceUnixEpoch: 1_000_000)
-            let store = Store.InMemory<String, Int, Instant>(capacity: 2)
+            let t0 = Time.Instant(secondsSinceUnixEpoch: 1_000_000)
+            let store = Store.InMemory<String, Int, Time.Instant>(capacity: 2)
 
             store.insert(1, forKey: "a", ttl: TTL(nil, from: t0))
             store.insert(2, forKey: "b", ttl: TTL(nil, from: t0))

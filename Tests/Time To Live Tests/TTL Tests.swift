@@ -9,8 +9,8 @@ struct `TTL Tests` {
     struct Unit {
         @Test
         func `missing duration never expires`() throws {
-            let start = try Instant(secondsSinceUnixEpoch: 1_000_000)
-            let policy = TTL<Instant>(from: start)
+            let start = Time.Instant(secondsSinceUnixEpoch: 1_000_000)
+            let policy = TTL<Time.Instant>(from: start)
 
             #expect(policy.expiration == nil)
             #expect(!policy.isExpired(at: start))
@@ -21,8 +21,8 @@ struct `TTL Tests` {
     struct `Edge Case` {
         @Test
         func `negative duration is already expired`() throws {
-            let start = try Instant(secondsSinceUnixEpoch: 1_000_000)
-            let policy = TTL<Instant>(.seconds(-1), from: start)
+            let start = Time.Instant(secondsSinceUnixEpoch: 1_000_000)
+            let policy = TTL<Time.Instant>(.seconds(-1), from: start)
 
             #expect(policy.isExpired(at: start))
         }
@@ -32,8 +32,8 @@ struct `TTL Tests` {
     struct Integration {
         @Test
         func `duration creates an expiry deadline`() throws {
-            let start = try Instant(secondsSinceUnixEpoch: 1_000_000)
-            let policy = TTL<Instant>(.seconds(1), from: start)
+            let start = Time.Instant(secondsSinceUnixEpoch: 1_000_000)
+            let policy = TTL<Time.Instant>(.seconds(1), from: start)
 
             #expect(policy.expiration == start.advanced(by: .seconds(1)))
             #expect(!policy.isExpired(at: start))
