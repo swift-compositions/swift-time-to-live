@@ -1,49 +1,12 @@
 # swift-time-to-live
 
-![Development Status](https://img.shields.io/badge/status-active--development-blue.svg)
-[![CI](https://github.com/swift-compositions/swift-time-to-live/workflows/CI/badge.svg)](https://github.com/swift-compositions/swift-time-to-live/actions/workflows/ci.yml)
+Use this package when values should stop being served after a set time, and you want to decide expiry against an instant you pass in, from any clock. Start from `TTL<Instant>` for the expiry rule alone, and `Store.InMemory<Key, Value, Instant>` for a bounded in-memory store whose entries expire under it. The `Time To Live Dependencies` product adds overloads that take the current instant from the injected `clock` dependency instead. If you need to compute an expensive value once per key with no expiry, use `Cache<Key, Value>` from swift-cache.
 
-A clock-agnostic time-to-live policy and a typed, capacity-bounded in-memory store whose entries expire under it.
+## Laws
 
----
-
-## Installation
-
-```swift
-dependencies: [
-    .package(
-        url: "https://github.com/swift-compositions/swift-time-to-live.git",
-        branch: "main"
-    )
-]
-```
-
-```swift
-.target(
-    name: "YourTarget",
-    dependencies: [
-        .product(name: "Time To Live", package: "swift-time-to-live"),
-        .product(name: "Time To Live Store", package: "swift-time-to-live"),
-    ]
-)
-```
-
-`Time To Live` carries the expiry policy alone; `Time To Live Store` adds the
-in-memory store and re-exports the policy, so a consumer that needs the store
-can depend on that product on its own.
-
-The package publishes no tags yet, so the dependency is pinned to `main`.
-
----
-
-## Community
-
-<!-- BEGIN: discussion -->
-*Discussion thread will be created at first public release.*
-<!-- END: discussion -->
-
----
-
-## License
-
-Apache 2.0. See [LICENSE](LICENSE.md).
+- A `TTL<Instant>` expires at its expiration instant, not after it. With no duration it never expires. A zero or negative duration is already expired at its start.
+- `Store.InMemory<Key, Value, Instant>` never removes an entry because time passes. An expired entry stays stored, and counts toward `count` and the capacity, until a lookup at or after its expiration removes it, or `Store.InMemory.prune(at:)` does.
+- The store holds at most `capacity` entries, 1000 by default. Inserting a new key into a full store evicts the entry inserted earliest, whether or not it has expired. Replacing an existing key keeps its place and evicts nothing, and reading a key does not change the order.
+- Inserting an existing key replaces both its value and its expiration.
+- `Store.InMemory<Key, Value, Instant>` is a struct, but its copies share one set of entries.
+- The dependency overloads read the `clock` dependency each time they are called. They exist only for stores and policies whose instant is `Clock.Any<Time.Duration>.Instant`. Without `expiresIn`, an entry never expires.
