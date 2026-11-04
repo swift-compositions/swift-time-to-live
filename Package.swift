@@ -20,6 +20,10 @@ let package = Package(
             name: "Time To Live Store",
             targets: ["Time To Live Store"]
         ),
+        .library(
+            name: "Time To Live Dependencies",
+            targets: ["Time To Live Dependencies"]
+        ),
     ],
     dependencies: [
         .package(
@@ -30,6 +34,8 @@ let package = Package(
             url: "https://github.com/swift-atoms/swift-time.git",
             branch: "main"
         ),
+        .package(url: "https://github.com/swift-atoms/swift-clock.git", branch: "main"),
+        .package(url: "https://github.com/swift-compositions/swift-dependencies.git", branch: "main"),
     ],
     targets: [
         .target(name: "Time To Live"),
@@ -51,6 +57,28 @@ let package = Package(
             name: "Time To Live Store Tests",
             dependencies: [
                 "Time To Live Store",
+                .product(name: "Time", package: "swift-time"),
+            ]
+        ),
+        .target(
+            name: "Time To Live Dependencies",
+            dependencies: [
+                "Time To Live",
+                "Time To Live Store",
+                .product(name: "Clock Concurrency", package: "swift-clock"),
+                .product(name: "Dependencies", package: "swift-dependencies"),
+                .product(name: "Time", package: "swift-time"),
+            ]
+        ),
+        .testTarget(
+            name: "Time To Live Dependencies Tests",
+            dependencies: [
+                "Time To Live Dependencies",
+                "Time To Live",
+                "Time To Live Store",
+                .product(name: "Clock Concurrency", package: "swift-clock"),
+                .product(name: "Dependencies", package: "swift-dependencies"),
+                .product(name: "Dependencies Test Support", package: "swift-dependencies"),
                 .product(name: "Time", package: "swift-time"),
             ]
         ),
