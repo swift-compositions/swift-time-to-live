@@ -42,29 +42,29 @@ let package = Package(
         .target(
             name: "Time To Live Store",
             dependencies: [
-                "Time To Live",
+                .target(name: "Time To Live"),
                 .product(name: "Cache", package: "swift-cache"),
             ]
         ),
         .testTarget(
             name: "Time To Live Tests",
             dependencies: [
-                "Time To Live",
+                .target(name: "Time To Live"),
                 .product(name: "Time", package: "swift-time"),
             ]
         ),
         .testTarget(
             name: "Time To Live Store Tests",
             dependencies: [
-                "Time To Live Store",
+                .target(name: "Time To Live Store"),
                 .product(name: "Time", package: "swift-time"),
             ]
         ),
         .target(
             name: "Time To Live Dependencies",
             dependencies: [
-                "Time To Live",
-                "Time To Live Store",
+                .target(name: "Time To Live"),
+                .target(name: "Time To Live Store"),
                 .product(name: "Clock Concurrency", package: "swift-clock"),
                 .product(name: "Dependencies", package: "swift-dependencies"),
                 .product(name: "Time", package: "swift-time"),
@@ -73,9 +73,9 @@ let package = Package(
         .testTarget(
             name: "Time To Live Dependencies Tests",
             dependencies: [
-                "Time To Live Dependencies",
-                "Time To Live",
-                "Time To Live Store",
+                .target(name: "Time To Live Dependencies"),
+                .target(name: "Time To Live"),
+                .target(name: "Time To Live Store"),
                 .product(name: "Clock Concurrency", package: "swift-clock"),
                 .product(name: "Dependencies", package: "swift-dependencies"),
                 .product(name: "Dependencies Test Support", package: "swift-dependencies"),
