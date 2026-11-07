@@ -7,14 +7,18 @@ import Time_To_Live
 
 @testable import Time_To_Live_Dependencies
 
-@Suite
-struct `TTL Dependencies Tests` {
-    @Suite struct Unit {}
-    @Suite struct `Edge Case` {}
-    @Suite struct Integration {}
+enum `TTL+Dependencies Tests` {}
+
+extension `TTL+Dependencies Tests` {
+    @Suite
+    struct `TTL Dependencies Tests` {
+        @Suite struct Unit {}
+        @Suite struct `Edge Case` {}
+        @Suite struct Integration {}
+    }
 }
 
-extension `TTL Dependencies Tests`.Unit {
+extension `TTL+Dependencies Tests`.`TTL Dependencies Tests`.Unit {
     @Test
     func `the injected clock supplies the current instant`() async {
         let test = Clock.Test()
@@ -32,7 +36,7 @@ extension `TTL Dependencies Tests`.Unit {
     }
 }
 
-extension `TTL Dependencies Tests`.`Edge Case` {
+extension `TTL+Dependencies Tests`.`TTL Dependencies Tests`.`Edge Case` {
     @Test
     func `an absent duration remains unexpired`() {
         let test = Clock.Test()

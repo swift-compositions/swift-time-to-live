@@ -3,12 +3,18 @@ import Time
 import Time_To_Live
 import Time_To_Live_Store
 
-@Suite
-struct `Store InMemory Tests` {
-    @Suite struct Unit {}
-    @Suite struct `Edge Case` {}
-    @Suite struct Integration {}
+enum `Store.InMemory Tests` {}
 
+extension `Store.InMemory Tests` {
+    @Suite
+    struct `Store InMemory Tests` {
+        @Suite struct Unit {}
+        @Suite struct `Edge Case` {}
+        @Suite struct Integration {}
+    }
+}
+
+extension `Store.InMemory Tests`.`Store InMemory Tests` {
     @Suite
     struct Lookup {
         @Test
