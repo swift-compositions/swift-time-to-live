@@ -32,7 +32,7 @@ extension `Store.InMemory Boundary Tests` {
         @Test
         func `the store never holds more entries than its capacity`() {
             let store = Store.InMemory<Int, Int, Time.Instant>(capacity: 2)
-            for key in 0..<5 {
+            (0..<5).forEach { key in
                 store.insert(key, forKey: key, ttl: TTL(from: Self.t0))
             }
 
