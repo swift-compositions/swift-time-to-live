@@ -12,7 +12,8 @@ extension Store.InMemory where Instant == Clock.`Any`<Time::Duration>.Instant {
         expiresIn duration: Time::Duration? = nil
     ) {
         @Dependency(\.clock) var clock
-        insert(value, forKey: key, ttl: TTL(duration, from: clock.now))
+        let now = clock.now
+        insert(value, forKey: key, ttl: TTL(duration, from: now), at: now)
     }
 
     public func value(forKey key: Key) -> Value? {

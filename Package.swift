@@ -56,6 +56,7 @@ let package = Package(
         .testTarget(
             name: "Time To Live Store Tests",
             dependencies: [
+                .target(name: "Time To Live"),
                 .target(name: "Time To Live Store"),
                 .product(name: "Time", package: "swift-time"),
             ]
